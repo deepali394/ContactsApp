@@ -7,23 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220CDDB92322D6AF00CA4B14 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220CDDB82322D6AF00CA4B14 /* NetworkManager.swift */; };
+		220CDDBD2322D99200CA4B14 /* ContactsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220CDDBC2322D99200CA4B14 /* ContactsModel.swift */; };
 		22570F25232174A500E1F23E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22570F24232174A500E1F23E /* AppDelegate.swift */; };
-		22570F27232174A500E1F23E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22570F26232174A500E1F23E /* ViewController.swift */; };
 		22570F2A232174A500E1F23E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22570F28232174A500E1F23E /* Main.storyboard */; };
 		22570F2C232174A500E1F23E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22570F2B232174A500E1F23E /* Assets.xcassets */; };
 		22570F2F232174A500E1F23E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22570F2D232174A500E1F23E /* LaunchScreen.storyboard */; };
-		22570F372321752200E1F23E /* NewFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22570F362321752200E1F23E /* NewFile.swift */; };
+		22E5F09023240B6200414543 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5F08F23240B6200414543 /* ContactsCell.swift */; };
+		22E5F09223241C4700414543 /* ContactsListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5F09123241C4700414543 /* ContactsListingViewController.swift */; };
+		22E5F09623243D1400414543 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E5F09523243D1400414543 /* ContactDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		220CDDB82322D6AF00CA4B14 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		220CDDBC2322D99200CA4B14 /* ContactsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsModel.swift; sourceTree = "<group>"; };
 		22570F21232174A500E1F23E /* ContactsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContactsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22570F24232174A500E1F23E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		22570F26232174A500E1F23E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		22570F29232174A500E1F23E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		22570F2B232174A500E1F23E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22570F2E232174A500E1F23E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22570F30232174A500E1F23E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		22570F362321752200E1F23E /* NewFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFile.swift; sourceTree = "<group>"; };
+		22E5F08F23240B6200414543 /* ContactsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCell.swift; sourceTree = "<group>"; };
+		22E5F09123241C4700414543 /* ContactsListingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListingViewController.swift; sourceTree = "<group>"; };
+		22E5F09523243D1400414543 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +62,34 @@
 		22570F23232174A500E1F23E /* ContactsApp */ = {
 			isa = PBXGroup;
 			children = (
+				22E5F09423242CEA00414543 /* ContactDetail */,
 				22570F24232174A500E1F23E /* AppDelegate.swift */,
-				22570F26232174A500E1F23E /* ViewController.swift */,
+				220CDDB82322D6AF00CA4B14 /* NetworkManager.swift */,
 				22570F28232174A500E1F23E /* Main.storyboard */,
-				22570F2B232174A500E1F23E /* Assets.xcassets */,
 				22570F2D232174A500E1F23E /* LaunchScreen.storyboard */,
+				220CDDBC2322D99200CA4B14 /* ContactsModel.swift */,
+				22E5F09323242CAC00414543 /* ContactsListing */,
 				22570F30232174A500E1F23E /* Info.plist */,
-				22570F362321752200E1F23E /* NewFile.swift */,
+				22570F2B232174A500E1F23E /* Assets.xcassets */,
 			);
 			path = ContactsApp;
+			sourceTree = "<group>";
+		};
+		22E5F09323242CAC00414543 /* ContactsListing */ = {
+			isa = PBXGroup;
+			children = (
+				22E5F08F23240B6200414543 /* ContactsCell.swift */,
+				22E5F09123241C4700414543 /* ContactsListingViewController.swift */,
+			);
+			path = ContactsListing;
+			sourceTree = "<group>";
+		};
+		22E5F09423242CEA00414543 /* ContactDetail */ = {
+			isa = PBXGroup;
+			children = (
+				22E5F09523243D1400414543 /* ContactDetailViewController.swift */,
+			);
+			path = ContactDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +163,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22570F27232174A500E1F23E /* ViewController.swift in Sources */,
+				220CDDBD2322D99200CA4B14 /* ContactsModel.swift in Sources */,
+				220CDDB92322D6AF00CA4B14 /* NetworkManager.swift in Sources */,
+				22E5F09023240B6200414543 /* ContactsCell.swift in Sources */,
+				22E5F09223241C4700414543 /* ContactsListingViewController.swift in Sources */,
+				22E5F09623243D1400414543 /* ContactDetailViewController.swift in Sources */,
 				22570F25232174A500E1F23E /* AppDelegate.swift in Sources */,
-				22570F372321752200E1F23E /* NewFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
