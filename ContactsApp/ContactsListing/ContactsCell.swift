@@ -31,8 +31,8 @@ class ContactsCell: UITableViewCell {
     
     func setDataForCell(data: ContactsModel) {
         
-        contactNameLabel.text = (data.firstName ?? "") + (data.lastName ?? "")
-        favoriteIcon.isHidden = data.favorite ?? false
+        contactNameLabel.text = "\(data.firstName ?? "") \(data.lastName ?? "")"
+        favoriteIcon.isHidden = !(data.favorite ?? false)
         
         let url = URL(string: data.profilePic ?? "")
         let data = try? Data(contentsOf: url ?? URL(fileURLWithPath: ""))

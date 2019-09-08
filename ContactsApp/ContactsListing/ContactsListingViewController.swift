@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ContactsListingViewController: UITableViewController {
 
     // MARK: Outlets
@@ -117,7 +118,6 @@ class ContactsListingViewController: UITableViewController {
             cell?.setDataForCell(data: contactValues[indexPath.row])
         }
         
-
         return cell!
     }
     
@@ -136,7 +136,37 @@ class ContactsListingViewController: UITableViewController {
         if let contactValues = contactDictionary[contactKey] {
             destination?.id = contactValues[indexPath.row].id
         }
+        destination?.delegate = self
         self.navigationController?.pushViewController(destination!, animated: true)
     }
+    
+    // MARK: Action methods
+    
+    @IBAction func addContactButtonClicked(_ sender: Any) {
+        
+        let destination = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddUpdateViewController") as? AddUpdateViewController
+        destination?.updateContactDelegate = self
+        destination?.screenType = .add
+        self.present(destination!, animated: true, completion: nil)
+    }
+    
+}
 
+extension ContactsListingViewController: UpdateContactsDelegate {
+    
+    func updateContacts() {
+        contacts = []
+        getContacts(success: { [weak self](contacts) in
+            print(contacts.count)
+            self?.contacts = contacts
+            
+            self?.createSectionTitles()
+            
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }) { (errorMessage) in
+            print(errorMessage)
+        }
+    }
 }

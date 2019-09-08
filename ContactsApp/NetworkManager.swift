@@ -71,6 +71,49 @@ class NetworkManager {
         
 }
     
+    
+    func postPutRequest(method: String, urlString: String, view: UIView, parameters: ContactsModel, success: @escaping (SuccessHandler), failure: @escaping (ErrorHandler)) {
+        
+        showProgressView(in: view)
+        
+        let url = String(format: urlString)
+        guard let serviceUrl = URL(string: url) else { return }
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        var request = URLRequest(url: serviceUrl)
+        request.httpMethod = method
+        
+        do {
+            let jsonData = try encoder.encode(parameters)
+            request.httpBody = jsonData
+            
+        } catch {
+            print(error.localizedDescription)
+             failure(error)
+        }
+        
+        request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
+      
+        let session = URLSession.shared
+        session.dataTask(with: request) { (data, response, error) in
+            
+            self.hideProgressView()
+            
+            guard error == nil else {
+                failure(error!)
+                return
+            }
+            
+            if let aData = data, let urlResponse = response as? HTTPURLResponse, (200..<300).contains(urlResponse.statusCode) {
+                print(aData)
+                success(aData)
+            }
+        }.resume()
+    }
+    
+    
     func showProgressView(in view:UIView) {
         activityIndicator = UIActivityIndicatorView(style: .gray)
         activityIndicator?.frame = view.bounds

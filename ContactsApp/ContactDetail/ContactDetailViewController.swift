@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+
+protocol UpdateContactsDelegate {
+    func updateContacts()
+}
+
+
 class ContactDetailViewController: UIViewController {
     
     // MARK: Outlets
@@ -21,11 +27,10 @@ class ContactDetailViewController: UIViewController {
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var contactBackButton: UIButton!
     
-    
-    
     // MARK: Properties
     var id: Int?
-    
+    var contact: ContactsModel?
+    var delegate: UpdateContactsDelegate?
     
     // MARK: Life cycle methods
     override func viewDidLoad() {
@@ -56,8 +61,7 @@ class ContactDetailViewController: UIViewController {
     private func initialize() {
         
         getContactById(id: id ?? 0, success: { [weak self](contact) in
-            
-            
+            self?.contact = contact
             DispatchQueue.main.async {
                 self?.setDataOnScreen(contact: contact)
             }
@@ -83,8 +87,8 @@ class ContactDetailViewController: UIViewController {
     
     func setDataOnScreen(contact: ContactsModel) {
         
-        nameLabel.text = (contact.firstName ?? "") + (contact.lastName ?? "")
-        numberLabel.text = (contact.phoneNumber != nil) ? "+ 91 \(String(describing: contact.phoneNumber))" : "-"
+        nameLabel.text = "\(contact.firstName ?? "") \(contact.lastName ?? "")"
+        numberLabel.text = (contact.phoneNumber != nil) ? "\(contact.phoneNumber ?? "")" : "-"
         emailLabel.text = (contact.email != nil) ? contact.email : "-"
         favoriteButton.isSelected = contact.favorite ?? false
         
@@ -113,17 +117,70 @@ class ContactDetailViewController: UIViewController {
         }
     }
     
+    func updateContact(success: @escaping (ContactsModel)->(), failure: @escaping (String)->()) {
+        
+        let url = "http://gojek-contacts-app.herokuapp.com/contacts/\(contact?.id ?? 0).json"
+        
+        NetworkManager.shared.postPutRequest(method: "PUT", urlString: url, view: view, parameters: contact!, success: { (contact) in
+            do {
+                let contact = try JSONDecoder().decode(ContactsModel.self, from: contact)
+                success(contact)
+            } catch {
+                failure(error.localizedDescription)
+            }
+            
+        }) { (error) in
+            failure(error.localizedDescription)
+        }
+    }
+    
+    private func callNumber(phoneNumber:String) {
+        
+        if let phoneCallURL = URL(string: "telprompt://\(phoneNumber)") {
+            
+            let application:UIApplication = UIApplication.shared
+            if (application.canOpenURL(phoneCallURL)) {
+                if #available(iOS 10.0, *) {
+                    application.open(phoneCallURL, options: [:], completionHandler: nil)
+                } else {
+                    // Fallback on earlier versions
+                    application.openURL(phoneCallURL as URL)
+                    
+                }
+            }
+        }
+    }
+    
     // MARK: Action Methods
     @IBAction func messageButtonClicked(_ sender: Any) {
     }
     
     @IBAction func callButtonClicked(_ sender: Any) {
+        
+        if (contact?.phoneNumber != nil) {
+            callNumber(phoneNumber: contact?.phoneNumber ?? "")
+        }
+        
     }
     
     @IBAction func emailButtonClicked(_ sender: Any) {
     }
     
     @IBAction func favoriteButtonClicked(_ sender: Any) {
+        
+        contact?.favorite = !(contact?.favorite ?? false)
+        
+        updateContact(success: { (updatedContact) in
+            
+            DispatchQueue.main.async {
+                self.favoriteButton.isSelected = (updatedContact.favorite ?? false)
+            }
+            
+            self.delegate?.updateContacts()
+            
+        }) { (error) in
+            print(error)
+        }
     }
     
     @IBAction func contactBackButtonClicked(_ sender: Any) {
@@ -131,6 +188,24 @@ class ContactDetailViewController: UIViewController {
     }
     
     @IBAction func editButtonClicked(_ sender: Any) {
+        
+        let destination = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddUpdateViewController") as? AddUpdateViewController
+        destination?.contact = contact
+        destination?.delegate = self
+        destination?.screenType = .update
+        self.present(destination!, animated: true, completion: nil)
     }
     
+}
+
+extension ContactDetailViewController: AddUpdateContactDelegate {
+    
+    func updateContact(contact: ContactsModel) {
+        self.contact = contact
+        
+        DispatchQueue.main.async {
+            self.setDataOnScreen(contact: contact)
+        }
+        delegate?.updateContacts()
+    }
 }

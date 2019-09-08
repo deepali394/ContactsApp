@@ -24,6 +24,6 @@ class ContactsModel: NSObject, Codable {
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case email
-        case phoneNumber = "phone_numbers"
+        case phoneNumber = "phone_number"
     }
 }
